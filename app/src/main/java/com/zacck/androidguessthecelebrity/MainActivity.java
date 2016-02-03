@@ -80,6 +80,19 @@ public class MainActivity extends AppCompatActivity {
                 celebNames.add(namem.group(1));
             }
 
+            generateQuiz();
+
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void generateQuiz()
+    {
+        try
+        {
             //create a random
             Random mRandom = new Random();
             //pick a random celebrity to show pick and name
@@ -115,10 +128,6 @@ public class MainActivity extends AppCompatActivity {
             bt1.setText(answers[1]);
             bt2.setText(answers[2]);
             bt3.setText(answers[3]);
-
-
-
-
         }
         catch(Exception e)
         {
@@ -158,6 +167,7 @@ public class MainActivity extends AppCompatActivity {
             alert("Wrong! It was "+celebNames.get(chosenCeleb));
 
         }
+        generateQuiz();
     }
 
     public void alert(String Message)
