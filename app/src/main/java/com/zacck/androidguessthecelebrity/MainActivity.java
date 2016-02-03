@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -28,6 +29,10 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<String> celebNames = new ArrayList<String>();
     int chosenCeleb = 0;
 
+    //gamify data
+    int locationofCorrecAnswer =0;
+    String[] answers = new String[4];
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         bt2 = (Button)findViewById(R.id.bt2);
         bt3 = (Button)findViewById(R.id.bt3);
 
+       //init a result string for use
         String result = null;
         DownloadImageTask mDownloadImageTask = new DownloadImageTask();
         try {
@@ -46,8 +52,8 @@ public class MainActivity extends AppCompatActivity {
 
             String[] splitResult = result.split("<div class=\"sidebarContainer\">");
 
-            //find all the bits between 'mi' and 'pi' using regex
-            Pattern webp = Pattern.compile("src=\"(.*?)\"");
+
+            Pattern webp = Pattern.compile("<img src=\"(.*?)\"");
             //matcher
             Matcher webm = webp.matcher(splitResult[0]);
 
@@ -60,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
                 ImageLinks.add(webm.group(1));
             }
 
-            //find all the bits between 'mi' and 'pi' using regex
+
             Pattern namep = Pattern.compile("alt=\"(.*?)\"");
             //matcher
             Matcher namem = namep.matcher(splitResult[0]);
@@ -76,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
 
             //create a random
             Random mRandom = new Random();
+            //pick a random celebrity to show pick and name
             chosenCeleb = mRandom.nextInt(celebNames.size());
 
             ImageDownloader mImageDownloader = new ImageDownloader();
@@ -83,6 +90,32 @@ public class MainActivity extends AppCompatActivity {
             celebImage = mImageDownloader.execute(ImageLinks.get(chosenCeleb)).get();
 
             mCelebImage.setImageBitmap(celebImage);
+
+            locationofCorrecAnswer = mRandom.nextInt(4);
+            int incorrectanswerlocation;
+            //set up the values
+            for(int i=0; i<4; i++)
+            {
+                if(i == locationofCorrecAnswer)
+                {
+                    answers[i] = celebNames.get(chosenCeleb);
+                }
+                else
+                {
+                    incorrectanswerlocation = mRandom.nextInt(celebNames.size());
+                    while (incorrectanswerlocation == chosenCeleb)
+                    {
+                        incorrectanswerlocation = mRandom.nextInt(celebNames.size());
+                    }
+                    answers[i] = celebNames.get(incorrectanswerlocation);
+                }
+            }
+
+            bt0.setText(answers[0]);
+            bt1.setText(answers[1]);
+            bt2.setText(answers[2]);
+            bt3.setText(answers[3]);
+
 
 
 
@@ -113,10 +146,23 @@ public class MainActivity extends AppCompatActivity {
             return null;
         }
     }
-
+    //handle button presses
     public void celebChosen(View view)
     {
+        if(view.getTag().toString().equals(Integer.toString(locationofCorrecAnswer)))
+        {
+            alert("Correct");
+        }
+        else
+        {
+            alert("Wrong! It was "+celebNames.get(chosenCeleb));
 
+        }
+    }
+
+    public void alert(String Message)
+    {
+        Toast.makeText(getApplicationContext(),Message, Toast.LENGTH_SHORT).show();
     }
 
     public class DownloadImageTask extends AsyncTask<String, Void, String>

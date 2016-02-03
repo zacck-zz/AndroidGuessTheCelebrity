@@ -23,7 +23,6 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="New Button"
         android:id="@+id/bt0"
         android:layout_marginBottom="173dp"
         android:layout_alignParentBottom="true"
@@ -35,33 +34,30 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="New Button"
         android:id="@+id/bt1"
         android:layout_marginTop="52dp"
         android:layout_alignTop="@+id/bt0"
-        android:tag="0"
+        android:tag="1"
         android:layout_centerHorizontal="true"
         android:onClick="celebChosen" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="New Button"
         android:id="@+id/bt2"
         android:layout_below="@+id/bt1"
         android:layout_alignLeft="@+id/bt1"
-        android:tag="0"
+        android:tag="2"
         android:layout_alignStart="@+id/bt1"
         android:onClick="celebChosen" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="New Button"
         android:id="@+id/bt3"
         android:layout_below="@+id/bt2"
         android:layout_alignLeft="@+id/bt2"
-        android:tag="0"
+        android:tag="3"
         android:layout_alignStart="@+id/bt2"
         android:onClick="celebChosen" />
 </RelativeLayout>
